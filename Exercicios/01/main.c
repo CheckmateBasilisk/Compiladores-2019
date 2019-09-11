@@ -7,6 +7,8 @@ enum{
     FLT
 };
 
+#define ENTER '\n'
+
 int recognize(){
     FILE *input;
     input = stdin;
@@ -15,7 +17,7 @@ int recognize(){
     c = getc(input);
     if(c == '0'){ // if input starts with '0'
         int c = getc(input);
-        if(c == EOF){
+        if(c == EOF || c == ENTER){
             return UINT;
         } else if(c == '.'){ // 0 followed by '.'
             int c;
@@ -25,12 +27,12 @@ int recognize(){
  
             if((c == 'e') || (c == 'E')){    //0. folloed by [eE]
                 c = getc(input);
-                if(c == EOF){
+                if(c == EOF || c == ENTER){
                     return -1;
                 }
                 if((c == '+') || (c == '-')){
                     c = getc(input);
-                    if(c == EOF){
+                    if(c == EOF || c == ENTER){
                         return -1;
                     }
                 }
@@ -39,25 +41,25 @@ int recognize(){
                     c = getc(input);    //check if c belongs to [0-9]*
                 }
 
-                if(c == EOF){
+                if(c == EOF || c == ENTER){
                     return FLT;
                 }else {
                     return -1;
                 }
             }
             
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return FLT; 
             }
-            return -1;// 0. followed by anything else than EOF
+            return -1;// 0. followed by anything else than EOF || c == ENTER
         } else if(c == 'e'||'E'){ // 0 followed by [eE]
             c = getc(input);
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return -1;
             }
             if((c == '+') || (c == '-')){
                 c = getc(input);
-                if(c == EOF){
+                if(c == EOF || c == ENTER){
                     return -1;
                 }
             }
@@ -66,7 +68,7 @@ int recognize(){
                 c = getc(input);    //check if c belongs to [0-9]*
             }
 
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return FLT;
             }else {
                 return -1;
@@ -83,14 +85,14 @@ int recognize(){
         }while(isdigit(c));
 
 
-        if(c == EOF){
+        if(c == EOF || c == ENTER){
             return UINT;
         }else if(c == '.'){
             do{
                 c =(getc(input));   //check if c belongs to [0-9]*
             }while(isdigit(c));
 
-            if(c == EOF){   //if input is [1-9] [0-9]* followed by EOF
+            if(c == EOF || c == ENTER){   //if input is [1-9] [0-9]* followed by EOF || c == ENTER
                 return FLT;
             }else           //if input is [1-9] [0-9]* followed by anything else => error
                 return -1;
@@ -98,12 +100,12 @@ int recognize(){
 
         } else if((c == 'e') || (c == 'E')){    //if input is [1-9][0-9]* followed by [eE] 
             c = getc(input);
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return -1;
             }
             if((c == '+') || (c == '-')){
                 c = getc(input);
-                if(c == EOF){
+                if(c == EOF || c == ENTER){
                     return -1;
                 }
             }
@@ -111,7 +113,7 @@ int recognize(){
             while(isdigit(c)){
                 c = getc(input);    //check if c belongs to [0-9]*
             }
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return FLT;
             }else {
                 return -1;
@@ -122,22 +124,22 @@ int recognize(){
         
     } else if(c == '.'){    //if input starts with '.'
         c = getc(input);
-        if(c == EOF)    //if input is '.' followed by nothing => error
+        if(c == EOF || c == ENTER)    //if input is '.' followed by nothing => error
             return -1;
         
         while(isdigit(c))
             c = (getc(input));
     
-        if(c == EOF){   //if input is '.' [0-9]+
+        if(c == EOF || c == ENTER){   //if input is '.' [0-9]+
             return FLT;
         }else if((c == 'e') || (c == 'E')){   //if input is '.' [0-9] [eE]
             c = getc(input);
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return -1;
             }
             if((c == '+') || (c == '-')){
                 c = getc(input);
-                if(c == EOF){
+                if(c == EOF || c == ENTER){
                     return -1;
                 }
             }
@@ -147,7 +149,7 @@ int recognize(){
             }
 
 
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return FLT;
             }else {
                 return -1;
@@ -158,12 +160,12 @@ int recognize(){
     
     } else if((c == 'e') || (c == 'E')){    //if input starts with [eE]
         c = getc(input);
-        if(c == EOF){
+        if(c == EOF || c == ENTER){
             return -1;
         }
         if((c == '+') || (c == '-')){
             c = getc(input);
-            if(c == EOF){
+            if(c == EOF || c == ENTER){
                 return -1;
             }
         }
@@ -173,7 +175,7 @@ int recognize(){
         }
 
 
-        if(c == EOF){
+        if(c == EOF || c == ENTER){
             return FLT;
         }else {
             return -1;
