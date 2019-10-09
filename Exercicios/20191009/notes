@@ -1,0 +1,3 @@
+C-d sends a -1 to stdin
+    trying to recognize a C-d breaks stuff
+    should adapt skipSpaces to return something
