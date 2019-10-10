@@ -67,15 +67,16 @@ BOOLEAN isEXIT(FILE *tape){
     return FALSE;
 }
 
-//eats the head of tape and returns TRUE if it matches expected
+//eats the head of tape and returnsif it matches expected
 //returns FALSE otherwise
-BOOLEAN match(int expected, FILE *tape){
-    char head = fgetc(tape);
+int match(int expected, FILE *tape){
+    int head = fgetc(tape);
     
     if(head == expected){
         return TRUE;
     } else {
         fprintf(stderr, "%c met while %c was expected\n", head, expected);
+        ungetc(head, tape);
         return FALSE;
     }
 }
